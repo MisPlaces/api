@@ -36,9 +36,33 @@ class LugaresController extends Controller
                 return $this->present($l);
             });
         } else {
-            return $lugar;
             return [
-                'id' => $lugar->id,
+                'nombre' => $lugar->nombre,
+                'categoria' => [
+                    'id' => $lugar->categoria->id,
+                    'nombre' => $lugar->categoria->nombre,
+                ],
+                'resumen' => $lugar->resumen,
+                'cuerpo' => $lugar->cuerpo,
+                'tipo' => $lugar->tipo,
+                'direccion' => $lugar->direccion,
+                'latitud' => $lugar->latitud,
+                'longitud' => $lugar->longitud,
+                'map' => $lugar->map,
+                'telefono' => $lugar->telefono,
+                'celular' => $lugar->celular,
+                'email' => $lugar->email,
+                'facebook' => $lugar->facebook,
+                'twitter' => $lugar->twitter,
+                'instagram' => $lugar->instagram,
+                'youtube' => $lugar->youtube,
+                'fechaEventoInicio' => $lugar->fechaEventoInicio,
+                'fechaEventoFin' => $lugar->fechaEventoFin,
+                'fechaVisibleDesde' => $lugar->fechaVisibleDesde,
+                'fechaVisibleHasta' => $lugar->fechaVisibleHasta,
+                'activo' => $lugar->activo,
+                'fecha_creacion' => $lugar->fecha_creacion->toAtomString(),
+                'fecha_actualizacion' => $lugar->fecha_actualizacion->toAtomString(),
             ];
         }
     }
