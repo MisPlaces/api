@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class CategoriasController extends Controller
 {
@@ -14,28 +15,7 @@ class CategoriasController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return $this->present(Categoria::all());
     }
 
     /**
@@ -46,40 +26,22 @@ class CategoriasController extends Controller
      */
     public function show(Categoria $categoria)
     {
-        //
+        return $this->present($categoria);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Categoria  $categoria
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Categoria $categoria)
+    protected function present($categoria)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Categoria  $categoria
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Categoria $categoria)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Categoria  $categoria
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Categoria $categoria)
-    {
-        //
+        if ($categoria instanceof Collection) {
+            return $categoria->map(function ($c) {
+                return $this->present($c);
+            });
+        } else {
+            return [
+                'id' => $categoria->id,
+                'nombre' => $categoria->nombre,
+                'descripcion' => $categoria->descripcion,
+                'icono' => $categoria->icono,
+            ];
+        }
     }
 }
