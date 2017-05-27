@@ -17,4 +17,5 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('/lugares', 'LugaresController', ['only' => ['index', 'show']]);
+Route::resource('/lugares/{lugar}/recomendaciones', 'RecomentacionesController', ['only' => ['index', 'show']]);
