@@ -18,5 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::resource('/lugares', 'LugaresController', ['only' => ['index', 'show']]);
+Route::get('/hoteles', 'LugaresController@hoteles');
+Route::get('/posadas', 'LugaresController@posadas');
+Route::get('/restaurantes', 'LugaresController@restaurantes');
+Route::get('/lugares/buscar/{termino}', 'LugaresController@buscar');
 Route::resource('/categorias', 'CategoriasController', ['only' => ['index', 'show']]);
 Route::resource('/lugares/{lugar}/recomendaciones', 'RecomendacionesController', ['only' => ['index', 'show']]);

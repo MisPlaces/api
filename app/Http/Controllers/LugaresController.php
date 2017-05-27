@@ -8,6 +8,45 @@ use Illuminate\Support\Collection;
 
 class LugaresController extends Controller
 {
+    protected $lugares = [
+        [
+            'titulo' => 'Aeropuerto Internacional de Puerto Iguazú, Puerto Iguazú',
+            'tipo' => 'Aeropuerto',
+        ],
+        [
+            'titulo' => 'Cataratas del Iguazú, Puerto Iguazú',
+            'tipo' => 'Atractivo',
+        ],
+        [
+            'titulo' => 'Centro de Puerto Iguazú, Puerto Iguazú',
+            'tipo' => 'Ciudad',
+        ],
+        [
+            'titulo' => 'Nuevo Hotel Misiones, Puerto Iguazú',
+            'tipo' => 'Hotel',
+        ],
+        [
+            'titulo' => 'Puerto Esperanza',
+            'tipo' => 'Ciudad',
+        ],
+        [
+            'titulo' => 'Puerto Iguazú',
+            'tipo' => 'Ciudad',
+        ],
+        [
+            'titulo' => 'Puerto Libertad',
+            'tipo' => 'Ciudad',
+        ],
+        [
+            'titulo' => 'Puerto Rico',
+            'tipo' => 'Ciudad',
+        ],
+        [
+            'titulo' => 'Puerto, Puerto Iguazú',
+            'tipo' => 'Puerto',
+        ],
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +54,83 @@ class LugaresController extends Controller
      */
     public function index()
     {
-        return $this->present(Lugar::all());
+        return $this->present(Lugar::where('activo', 1)->get());
+    }
+
+    public function hoteles()
+    {
+        return $this->present(Lugar::where('activo', 1)->where('categoria_id', 1)->get());
+    }
+
+    public function posadas()
+    {
+        return $this->present(Lugar::where('activo', 1)->where('categoria_id', 8)->get());
+    }
+
+    public function restaurantes()
+    {
+        return $this->present(Lugar::where('activo', 1)->where('categoria_id', 5)->get());
+    }
+
+    public function buscar($termino)
+    {
+        $termino = preg_replace('~(\+|\%20)~', ' ', $termino);
+
+        return collect($this->lugares)->filter(function ($lugar) use ($termino) {
+
+            $patterns[0] = '/á/';
+            $patterns[1] = '/é/';
+            $patterns[2] = '/í/';
+            $patterns[3] = '/ó/';
+            $patterns[4] = '/ú/';
+            $replacements[0] = 'a';
+            $replacements[1] = 'e';
+            $replacements[2] = 'i';
+            $replacements[3] = 'o';
+            $replacements[4] = 'u';
+            
+            $termino = preg_replace($patterns, $replacements, $termino);
+            $titulo = preg_replace($patterns, $replacements, $lugar['titulo']);
+
+            // dd($termino, $titulo);
+
+            $termino = preg_replace('#\s+#', ' ', $termino);
+
+            $titulo = strtolower($titulo);
+
+            return 0 < preg_match('~'.$termino.'~i', $titulo);
+        })->map(function ($lugar) use ($termino) {
+            $patterns[0] = '/á/';
+            $patterns[1] = '/é/';
+            $patterns[2] = '/í/';
+            $patterns[3] = '/ó/';
+            $patterns[4] = '/ú/';
+            $replacements[0] = 'a';
+            $replacements[1] = 'e';
+            $replacements[2] = 'i';
+            $replacements[3] = 'o';
+            $replacements[4] = 'u';
+            
+            $termino = preg_replace($patterns, $replacements, $termino);
+            $titulo = preg_replace($patterns, $replacements, strtolower($lugar['titulo']));
+
+            $termino = preg_replace('#\s+#', ' ', $termino);
+
+            preg_match_all('~'.$termino.'~i', $titulo, $matches, PREG_OFFSET_CAPTURE);
+
+            $highlight = $lugar['titulo'];
+            $n = 0;
+            foreach ($matches[0] as $item) {
+                $item[1] += $n;
+                $highlight = mb_substr($highlight, 0, $item[1]).'<b>'.mb_substr($highlight, $item[1]);
+                $highlight = mb_substr($highlight, 0, $item[1] + mb_strlen($item[0]) + 3).'</b>'.mb_substr($highlight, $item[1] + mb_strlen($item[0]) + 3);
+                $n += 7;
+            }
+
+            $lugar['highlight'] = $highlight;
+
+            return $lugar;
+        });
     }
 
     /**
