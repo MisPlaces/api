@@ -41,6 +41,7 @@ class CategoriasController extends Controller
                 'nombre' => $categoria->nombre,
                 'descripcion' => $categoria->descripcion,
                 'icono' => $categoria->icono,
+                'tipo' => $categoria->tipo,
             ];
         }
     }

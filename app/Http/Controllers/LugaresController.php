@@ -64,6 +64,7 @@ class LugaresController extends Controller
                 'activo' => $lugar->activo,
                 'fecha_creacion' => $lugar->fecha_creacion->toAtomString(),
                 'fecha_actualizacion' => $lugar->fecha_actualizacion->toAtomString(),
+                'imagen_url' => $lugar->imagen_url,
             ];
         }
     }

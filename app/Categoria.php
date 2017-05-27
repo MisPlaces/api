@@ -13,4 +13,9 @@ class Categoria extends Model
     {
         return $this->hasMany(Lugar::class);
     }
+
+    public function getTipoAttribute()
+    {
+        return 'hotel';
+    }
 }

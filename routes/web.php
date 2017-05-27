@@ -19,4 +19,4 @@ Auth::routes();
 
 Route::resource('/lugares', 'LugaresController', ['only' => ['index', 'show']]);
 Route::resource('/categorias', 'CategoriasController', ['only' => ['index', 'show']]);
-Route::resource('/lugares/{lugar}/recomendaciones', 'RecomentacionesController', ['only' => ['index', 'show']]);
+Route::resource('/lugares/{lugar}/recomendaciones', 'RecomendacionesController', ['only' => ['index', 'show']]);
