@@ -39,4 +39,17 @@ class Lugar extends Model
     {
         return 'http://192.168.19.86/backend/web/uploads/images/lugar/'.$this->image_name;
     }
+
+    public function getCuentaRecomendacionesAttribute()
+    {
+        return Recomendacion::where('lugar_id', $this->id)
+                            ->count();
+    }
+
+    public function getCuentaMeGustaAttribute()
+    {
+        return Recomendacion::where('lugar_id', $this->id)
+                            ->where('me_gusta', 1)
+                            ->count();
+    }
 }

@@ -24,9 +24,9 @@ class LugaresController extends Controller
      * @param  \App\Lugar  $lugar
      * @return \Illuminate\Http\Response
      */
-    public function show(Lugar $lugar)
+    public function show(Lugar $lugare)
     {
-        return $this->present($lugar);
+        return $this->present($lugare);
     }
 
     protected function present($lugar)
@@ -40,8 +40,8 @@ class LugaresController extends Controller
                 'id' => $lugar->id,
                 'nombre' => $lugar->nombre,
                 'categoria' => [
-                    'id' => $lugar->categoria->id,
-                    'nombre' => $lugar->categoria->nombre,
+                    'id' => $lugar->categoria?$lugar->categoria->id:null,
+                    'nombre' => $lugar->categoria?$lugar->categoria->nombre:null,
                 ],
                 'resumen' => $lugar->resumen,
                 'cuerpo' => $lugar->cuerpo,
@@ -62,9 +62,9 @@ class LugaresController extends Controller
                 'fechaVisibleDesde' => $lugar->fechaVisibleDesde,
                 'fechaVisibleHasta' => $lugar->fechaVisibleHasta,
                 'activo' => $lugar->activo,
-                'fecha_creacion' => $lugar->fecha_creacion->toAtomString(),
-                'fecha_actualizacion' => $lugar->fecha_actualizacion->toAtomString(),
                 'imagen_url' => $lugar->imagen_url,
+                'cuenta_recomendaciones' => $lugar->cuenta_recomendaciones,
+                'cuenta_me_gusta' => $lugar->cuenta_me_gusta,
             ];
         }
     }

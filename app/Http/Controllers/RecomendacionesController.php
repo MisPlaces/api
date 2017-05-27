@@ -26,10 +26,22 @@ class RecomendacionesController extends Controller
                 return $this->present($r);
             });
         } else {
-            return $recomendacion;
-            // return [
-            //     'id' => $recomendacion->id,
-            // ];
+            return [
+                'id' => $recomendacion->id,
+                'me_gusta' => $recomendacion->me_gusta,
+                'comentario' => $recomendacion->comentario,
+                'persona' => [
+                    'id' => $recomendacion->persona->id,
+                    'nombre' => $recomendacion->persona->nombre,
+                    'apellido' => $recomendacion->persona->apellido,
+                    'nombre_para_mostrar' => $recomendacion->persona->nombre_para_mostrar,
+                    'avatar' => $recomendacion->persona->avatar,
+                ],
+                'lugar' => [
+                    'id' => $recomendacion->lugar->id,
+                    'nombre' => $recomendacion->lugar->nombre,
+                ],
+            ];
         }
     }
 }
