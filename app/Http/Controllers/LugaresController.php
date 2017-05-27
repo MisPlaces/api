@@ -37,6 +37,7 @@ class LugaresController extends Controller
             });
         } else {
             return [
+                'id' => $lugar->id,
                 'nombre' => $lugar->nombre,
                 'categoria' => [
                     'id' => $lugar->categoria->id,
