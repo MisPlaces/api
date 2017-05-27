@@ -19,7 +19,7 @@
             "database"
         ],
         "psr-4": {
-            "misplaces-api\\": "app/"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {
