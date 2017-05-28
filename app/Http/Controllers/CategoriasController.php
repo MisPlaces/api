@@ -15,7 +15,11 @@ class CategoriasController extends Controller
      */
     public function index()
     {
-        return $this->present(Categoria::all());
+        // return $this->present(Categoria::all());
+
+        return $this->present(Categoria::all()->sortByDesc(function ($categoria) {
+            return $categoria->lugares()->count();
+        })->values());
     }
 
     /**
